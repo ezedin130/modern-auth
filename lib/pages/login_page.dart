@@ -6,6 +6,7 @@ import 'package:auth/pages/home_page.dart';
 import 'package:auth/pages/register_page.dart';
 import 'package:auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
    const LoginPage({super.key});
@@ -15,6 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
    final emailController = TextEditingController();
 
    final passwordController = TextEditingController();
@@ -24,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
    bool isLoading = false;
 
    final _formKey = GlobalKey<FormState>();
+
 
    void signUserIn()async{
      String email = emailController.text.trim();
