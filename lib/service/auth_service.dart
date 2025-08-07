@@ -12,8 +12,8 @@ class AuthService {
         email: email,
         data: {'name': name},
       );
-      if (response.user != null) {
-        return null;
+      if (response.session != null && response.user != null) {
+        return null; // Success
       }
       return "An error occured";
     } on AuthException catch (e) {
@@ -25,12 +25,12 @@ class AuthService {
 
   Future<String?> signIn(String email, String password) async {
     try {
-      final response = await supabase.auth.signUp(
-        password: password,
+      final response = await supabase.auth.signInWithPassword(
         email: email,
+        password: password,
       );
-      if (response.user != null) {
-        return null;
+      if (response.session != null && response.user != null) {
+        return null; // Success
       }
       return "An error occured";
     } on AuthException catch (e) {

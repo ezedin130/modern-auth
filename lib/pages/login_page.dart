@@ -2,12 +2,13 @@ import 'package:auth/components/MyTextField.dart';
 import 'package:auth/components/MyTile.dart';
 import 'package:auth/components/my_button.dart';
 import 'package:auth/components/snack_bar.dart';
+import 'package:auth/pages/home_page.dart';
 import 'package:auth/pages/register_page.dart';
 import 'package:auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-   LoginPage({super.key});
+   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -27,25 +28,24 @@ class _LoginPageState extends State<LoginPage> {
    void signUserIn()async{
      String email = emailController.text.trim();
      String password = passwordController.text.trim();
-     if(!email.contains(".com")){
-       showSnackBar(context, "Invalid Email");
-     }
+     if(!mounted) return;
      setState(() {
        isLoading = true;
      });
-
-     final result = await _authService.signIn(email, password);
-     if(result == null){
-       setState(() {
-         isLoading = false;
-       });
-       showSnackBar(context, "Signup Successfull!");
+     try{
+       final result = await _authService.signIn(email, password);
+       if (result == null) {
+         showSnackBar(context, "Login Successfull!");
+         Navigator.of(
+           context,
+         ).push(MaterialPageRoute(builder: (context) => HomePage()));
+       }
+       else {
+         showSnackBar(context,result);
+       }
      }
-     else{
-       setState(() {
-         isLoading = false;
-       });
-       showSnackBar(context, "Signup Failed!");
+     catch(e) {
+       showSnackBar(context, 'An error occured : $e');
      }
    }
 
@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
                   }
+                  return null;
                 },
                 controller: emailController,
                 hintText: 'email',
@@ -92,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
+                  return null;
                 },
                 controller: passwordController,
                 hintText: 'Password',
@@ -116,7 +118,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               MyButton(
-                onTap: signUserIn,
+                onTap: () {
+                  if (_formKey.currentState!.validate()){
+                  signUserIn();
+                  }
+                },
                 text: 'Sign In',
                 ),
 

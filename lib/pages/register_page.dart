@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../components/snack_bar.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({super.key});
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -37,18 +37,12 @@ class _RegisterPageState extends State<RegisterPage> {
     try {
       final result = await _authService.signUp(email, name, password);
       if (result == null) {
-        setState(() {
-          isLoading = false;
-        });
         showSnackBar(context, "Signup Successfull!");
         Navigator.of(
           context,
         ).push(MaterialPageRoute(builder: (context) => LoginPage()));
       }
       else {
-        setState(() {
-          isLoading = false;
-        });
         showSnackBar(context, "Signup Failed!");
       }
     }
@@ -118,6 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (value == null || value.isEmpty || value.length < 6) {
                     return 'Please Enter Your Password , at least 6 characters';
                   }
+                  return null;
                 },
                 controller: passwordController,
                 hintText: "Password",
