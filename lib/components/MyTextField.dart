@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
+  final String? Function(String?)? validator ;
   final controller;
   final String hintText;
   final bool obsecureText;
@@ -8,14 +9,16 @@ class MyTextField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
-    required this.obsecureText
+    required this.obsecureText,
+    required this.validator
     });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: TextField(
+              child: TextFormField(
+                validator: validator,
                 controller: controller,
                 obscureText: obsecureText,
                 decoration: InputDecoration(
