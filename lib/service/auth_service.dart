@@ -39,6 +39,28 @@ class AuthService {
       return 'Error: $e';
     }
   }
+  Future<void> signInWithGoogle() async {
+    try {
+      // This opens an external browser for Google OAuth
+      await supabase.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'https://eohgiketzdbhwzthghjk.supabase.co/auth/v1/callback',
+      );
+    } catch (e) {
+      print('Google sign-in error: $e');
+    }
+  }
+  Future<void> signInWithGithub() async {
+    try {
+      // This opens an external browser for Google OAuth
+      await supabase.auth.signInWithOAuth(
+        OAuthProvider.google,
+        redirectTo: 'https://eohgiketzdbhwzthghjk.supabase.co/auth/v1/callback',
+      );
+    } catch (e) {
+      print('Github sign-in error: $e');
+    }
+  }
 
   Future<void> logout(BuildContext context) async {
     try {

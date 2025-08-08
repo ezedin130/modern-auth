@@ -50,7 +50,29 @@ class _RegisterPageState extends State<RegisterPage> {
       showSnackBar(context, 'An error occured : $e');
     }
   }
-
+  void signInWithGoogle(){
+    try{
+      _authService.signInWithGoogle();
+    }
+    catch(e){
+      showSnackBar(context, 'error : $e');
+    }
+  }
+  void signInWithGithub(){
+    try{
+      _authService.signInWithGithub();
+    }
+    catch(e){
+      showSnackBar(context, 'error : $e');
+    }
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,11 +181,21 @@ class _RegisterPageState extends State<RegisterPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Mytile(imagePath: 'lib/assets/google.png'),
+                  Mytile(
+                      imagePath: 'lib/assets/google.png',
+                    onTap: (){
+                      signInWithGoogle();
+                    },
+                  ),
 
                   const SizedBox(width: 25),
 
-                  Mytile(imagePath: 'lib/assets/github.png'),
+                  Mytile(
+                      imagePath: 'lib/assets/github.png',
+                    onTap: (){
+                      signInWithGithub();
+                    },
+                  ),
                 ],
               ),
 
